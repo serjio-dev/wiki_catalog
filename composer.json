@@ -1,0 +1,9 @@
+{
+    "name": "hillel/wiki_catalog",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Wiki\\Catalog\\" : "src/"
+        }
+    }
+}
