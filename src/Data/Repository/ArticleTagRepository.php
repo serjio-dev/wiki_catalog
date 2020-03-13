@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Data\Repository;
 
-use Wiki\Catalog\Data\Model\Article;
+use Wiki\Catalog\Data\Model\ArticleTag;
 
 class ArticleTagRepository extends Repository
 {
@@ -33,8 +33,8 @@ class ArticleTagRepository extends Repository
 
         $stm = $this->getPdo()->prepare('INSERT INTO tags (name, key) VALUES (:name, :key)');
 
-        $stm->bindValue('name', $articleTag->name, \PDO::PARAM_STR);
-        $stm->bindValue('key', $articleTag->key, \PDO::PARAM_STR);
+        $stm->bindValue('name', $articleTag->getName(), \PDO::PARAM_STR);
+        $stm->bindValue('key', $articleTag->getKey(), \PDO::PARAM_STR);
 
         $stm->execute();
 
@@ -42,11 +42,20 @@ class ArticleTagRepository extends Repository
 
     public function update(ArticleTag $articleTag): bool
     {
+        $stm = $this->getPdo()->prepare("UPDATE Customers SET name = ':name', key ':key' WHERE id = :id");
 
+        $stm->bindValue('id', $articleTag->getId(), \PDO::PARAM_INT);
+        $stm->bindValue('name', $articleTag->getName(), \PDO::PARAM_STR);
+        $stm->bindValue('key',  $articleTag->getKey(), \PDO::PARAM_STR);
+
+        return $stm->execute();
     }
 
     public function delete(int $id): bool
     {
+        $stm = $this->getPdo()->query('DELETE FROM tags WHERE (:id, :key)');
+        $stm->bindValue('id', $id, \PDO::PARAM_INT);
 
+        return $stm->execute();
     }
 }
