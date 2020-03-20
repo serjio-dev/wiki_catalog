@@ -1,6 +1,8 @@
 {
     "name": "hillel/wiki_catalog",
-    "require": {},
+    "require": {
+      "ext-pdo": "*"
+    },
     "autoload": {
         "psr-4": {
             "Wiki\\Catalog\\" : "src/"

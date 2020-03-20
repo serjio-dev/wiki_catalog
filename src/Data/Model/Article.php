@@ -15,7 +15,7 @@ class Article
      * @param $url
      * @param $content
      */
-    public function __construct($title, $url, $content)
+    public function __construct($title = null, $url = null, $content = null)
     {
         $this->title = $title;
         $this->url = $url;
