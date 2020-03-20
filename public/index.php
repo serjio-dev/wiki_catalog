@@ -3,12 +3,14 @@
 use Wiki\Catalog\Controllers\{Articles, Index, Tags, References};
 use Wiki\Catalog\Data\Connector;
 
+define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/..');
+
 require_once '../vendor/autoload.php';
 $confDb = require '../config/db.php';
 
 $uri = $_SERVER['REQUEST_URI'];
-$method = $_SERVER['REQUEST_METHOD'];
 $urlPath = parse_url($uri, PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
 
 $mappingAction = [
     'GET' => [
@@ -18,6 +20,7 @@ $mappingAction = [
         '/article/list' => [Articles::class, 'showList'],
         '/article/create' => [Articles::class, 'create'],
         '/article/update' => [Articles::class, 'update'],
+        '/article/edit' => [Articles::class, 'edit'],
         '/tags' => [Tags::class, 'getList'],
         '/reference' => [References::class, 'showItem'],
         '/references' => [References::class, 'getList'],
@@ -37,7 +40,10 @@ Connector::init(
     $confDb['user'],
     $confDb['pass']
 );
+
 list($controllerClass, $action) = $mappingAction[$method][$urlPath];
+
+
 
 $controller = new $controllerClass();
 $controller->$action();
