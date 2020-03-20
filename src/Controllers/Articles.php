@@ -5,53 +5,63 @@ namespace Wiki\Catalog\Controllers;
 use Wiki\Catalog\Data\Model\Article;
 use Wiki\Catalog\Data\Repository\ArticleRepository;
 
-class Articles
+class Articles extends BaseController
 {
+    /**
+     * @var ArticleRepository
+     */
+    private $articleRepository;
+
+    public function __construct()
+    {
+        $this->articleRepository = new ArticleRepository();
+    }
+
     public function create()
     {
         $article = new Article('title','url', 'content');
-        $article->setId('1');
-        $articleRepository = new ArticleRepository();
-        $result = $articleRepository->create($article);
+        $result = $this->articleRepository->create($article);
         var_dump($result);
     }
 
     public function update()
     {
-        $article = new Article(
-            'title',
-            'url',
-            'content updated at '.gmdate('Y-m-d H:i:s')
-        );
-        $article->setId('1');
-        $articleRepository = new ArticleRepository();
-        $result = $articleRepository->update($article);
-        var_dump($result);
+        $articleId = 1;
+        $result = null;
+
+        $article = $this->articleRepository->getItem($articleId);
+        if ($article instanceof Article) {
+            $article->setContent('content updated at '.gmdate('Y-m-d H:i:s'));
+            $result = $this->articleRepository->update($article);
+        }
     }
 
     public function edit()
     {
+        $articleId = $_GET['id'];
+        $article = $this->articleRepository->getItem($articleId);
 
+        var_dump($article);
+        var_dump($article->getTitle());
+
+        $this->render('edit', ['article' => $article, 'title' => 'Hi!!!']);
     }
 
     public function remove($id = 1)
     {
-        $articleRepository = new ArticleRepository();
-        $result = $articleRepository->delete($id);
+        $result = $this->articleRepository->delete($id);
         var_dump($result);
     }
 
     public function showItem($id = 1)
     {
-        $articleRepository = new ArticleRepository();
-        $article = $articleRepository->get($id);
+        $article = $this->articleRepository->getItem($id);
         var_dump($article);
     }
 
     public function showList()
     {
-        $articleRepository = new ArticleRepository();
-        $articles = $articleRepository->getList();
+        $articles = $this->articleRepository->getList();
         var_dump($articles);
     }
 }

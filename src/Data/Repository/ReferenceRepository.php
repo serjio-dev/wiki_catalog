@@ -5,10 +5,11 @@ namespace Wiki\Catalog\Data\Repository;
 
 
 use Wiki\Catalog\Data\Model\ArticleReference;
+use Wiki\Catalog\Data\Model\ModelInterface;
 
-class ReferenceRepository extends Repository
+class ReferenceRepository extends Repository implements RepositoryCrudInterface
 {
-    public function get(int $id): ?ArticleReference
+    public function getItem(int $id): ?ArticleReference
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM `references` WHERE id : id');
         $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleReference::class);
@@ -17,32 +18,30 @@ class ReferenceRepository extends Repository
         $stm->execute();
         $res = $stm->fetch();
 
-
-
         return $res ?? null;
     }
 
-    public function getList(): ?array
+    public function getItems(): array
     {
         $stm = $this->getPdo()->query('SELECT * FROM `references`');
         $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleReference::class);
 
-        $res = $stm->fetchAll();
-
-
-
-        return $res ?? null;
+        return $stm->fetchAll() ?? [];
     }
 
     public function delete($id): bool
     {
         $stm = $this->getPdo()->prepare('DELETE * FROM `references` WHERE id : id');
-
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
+
         return $stm->execute();
     }
 
-    public function create($model): bool
+    /**
+     * @param ArticleReference $model
+     * @return bool
+     */
+    public function create(ModelInterface $model): bool
     {
         $stm = $this->getPdo()->prepare('INSERT INTO `references`(link, content, article_id) VALUES (:link, :content, :article_id)');
         $stm->bindValue('link', $model->getLink(), \PDO::PARAM_STR);
@@ -52,7 +51,7 @@ class ReferenceRepository extends Repository
         return $stm->execute();
     }
 
-    public function update($model): bool
+    public function update(ArticleReference $model): bool
     {
         $stm = $this->getPdo()->prepare('UPDATE `references` SET link=:link, content=:content, article_id=:article_id WHERE id=:id');
         $stm->bindValue('link', $model->getLink(), \PDO::PARAM_STR);
@@ -62,5 +61,4 @@ class ReferenceRepository extends Repository
 
         return $stm->execute();
     }
-
 }

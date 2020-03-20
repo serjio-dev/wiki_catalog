@@ -2,12 +2,17 @@
 
 namespace Wiki\Catalog\Data\Repository;
 
-use PDO;
+use \PDO;
 use Wiki\Catalog\Data\Model\Article;
+use Wiki\Catalog\Data\Model\ModelInterface;
 
-class ArticleRepository extends Repository
+class ArticleRepository extends Repository implements RepositoryCrudInterface
 {
-    public function get(int $id): ?Article
+    /**
+     * @param int $id
+     * @return Article|null
+     */
+    public function getItem(int $id): ?ModelInterface
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM articles WHERE id = :id');
         $stm->setFetchMode(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, Article::class);
@@ -18,17 +23,21 @@ class ArticleRepository extends Repository
         return $res ?? null;
     }
 
-    public function getList(): array
+    public function getItems(): array
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM articles');
         $stm->setFetchMode(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, Article::class);
         $stm->execute();
         $res = $stm->fetchAll();
 
-        return $res ?? null;
+        return $res ?? [];
     }
 
-    public function create(Article $article): bool
+    /**
+     * @param Article $article
+     * @return bool
+     */
+    public function create(ModelInterface $article): bool
     {
         $stm = $this->getPdo()->prepare('
             INSERT INTO articles 
@@ -44,7 +53,11 @@ class ArticleRepository extends Repository
         return $stm->rowCount() > 0 ? true : false;
     }
 
-    public function update(Article $article): bool
+    /**
+     * @param Article $article
+     * @return bool
+     */
+    public function update(ModelInterface $article): bool
     {
         $stm = $this->getPdo()->prepare('
             UPDATE articles 
@@ -57,6 +70,7 @@ class ArticleRepository extends Repository
         $stm->bindValue('url', $article->getUrl(), PDO::PARAM_STR);
         $stm->bindValue('content', $article->getContent(), PDO::PARAM_STR);
         $stm->execute();
+
         return $stm->rowCount() > 0 ? true : false;
     }
 
@@ -66,6 +80,7 @@ class ArticleRepository extends Repository
         $stm->setFetchMode(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, Article::class);
         $stm->bindValue('id', $id, PDO::PARAM_INT);
         $stm->execute();
+
         return $stm->rowCount() > 0 ? true : false;
     }
 }

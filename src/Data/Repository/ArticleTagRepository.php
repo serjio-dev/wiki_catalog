@@ -3,10 +3,15 @@
 namespace Wiki\Catalog\Data\Repository;
 
 use Wiki\Catalog\Data\Model\ArticleTag;
+use Wiki\Catalog\Data\Model\ModelInterface;
 
-class ArticleTagRepository extends Repository
+class ArticleTagRepository extends Repository implements RepositoryCrudInterface
 {
-    public function getItem(int $id): ?ArticleTag
+    /**
+     * @param int $id
+     * @return ModelInterface|null
+     */
+    public function getItem(int $id): ?ModelInterface
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM tags WHERE id = :id');
         $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleTag::class);
@@ -25,22 +30,20 @@ class ArticleTagRepository extends Repository
 
         $res = $stm->fetchAll();
 
-        return $res;
+        return $res ?? [];
     }
 
-    public function create(ArticleTag $articleTag): bool
+    public function create(ModelInterface $articleTag): bool
     {
-
         $stm = $this->getPdo()->prepare('INSERT INTO tags (name, key) VALUES (:name, :key)');
 
         $stm->bindValue('name', $articleTag->getName(), \PDO::PARAM_STR);
         $stm->bindValue('key', $articleTag->getKey(), \PDO::PARAM_STR);
 
-        $stm->execute();
-
+        return $stm->execute();
     }
 
-    public function update(ArticleTag $articleTag): bool
+    public function update(ModelInterface $articleTag): bool
     {
         $stm = $this->getPdo()->prepare("UPDATE Customers SET name = ':name', key ':key' WHERE id = :id");
 

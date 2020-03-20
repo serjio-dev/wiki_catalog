@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Data\Model;
 
-class Article
+class Article implements ModelInterface
 {
     private $id;
     private $title;
@@ -79,9 +79,9 @@ class Article
     }
 
     /**
-     * @param mixed $content
+     * @param string $content
      */
-    public function setContent($content): void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
