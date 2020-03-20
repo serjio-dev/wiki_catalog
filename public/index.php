@@ -1,8 +1,6 @@
 <?php
 
-use Wiki\Catalog\Controllers\Articles;
-use Wiki\Catalog\Controllers\Index;
-use Wiki\Catalog\Controllers\Tags;
+use Wiki\Catalog\Controllers\{Articles, Index, Tags, References};
 use Wiki\Catalog\Data\Connector;
 
 require_once '../vendor/autoload.php';
@@ -21,12 +19,16 @@ $mappingAction = [
         '/article/create' => [Articles::class, 'create'],
         '/article/update' => [Articles::class, 'update'],
         '/tags' => [Tags::class, 'getList'],
+        '/reference' => [References::class, 'showItem'],
+        '/references' => [References::class, 'getList'],
+        '/references/update' => [References::class, 'update'],
+        '/references/remove' => [References::class, 'remove'],
     ],
     'POST' => [
-        '/tags/create' => [Tags::class, 'create']
+        '/tags/create' => [Tags::class, 'create'],
+        '/references/create' => [References::class, 'create'],
     ]
 ];
-
 
 Connector::init(
     $confDb['host'],
