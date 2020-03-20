@@ -1,32 +1,41 @@
 <?php
 
+use Wiki\Catalog\Controllers\Articles;
+use Wiki\Catalog\Controllers\Index;
+use Wiki\Catalog\Controllers\Tags;
+use Wiki\Catalog\Data\Connector;
+
 require_once '../vendor/autoload.php';
 $confDb = require '../config/db.php';
 
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
-
+$urlPath = parse_url($uri, PHP_URL_PATH);
 
 $mappingAction = [
     'GET' => [
-        '/' => [\Wiki\Catalog\Controllers\Index::class, 'get'],
-        '/article' => [\Wiki\Catalog\Controllers\Articles::class, 'showItem'],
-        '/tags' => [\Wiki\Catalog\Controllers\Tags::class, 'getList'],
+        '/' => [Index::class, 'get'],
+        '/article' => [Articles::class, 'showItem'],
+        '/article/remove' => [Articles::class, 'remove'],
+        '/article/list' => [Articles::class, 'showList'],
+        '/article/create' => [Articles::class, 'create'],
+        '/article/update' => [Articles::class, 'update'],
+        '/tags' => [Tags::class, 'getList'],
     ],
     'POST' => [
-        '/tags/create' => [\Wiki\Catalog\Controllers\Tags::class, 'create']
+        '/tags/create' => [Tags::class, 'create']
     ]
 ];
 
 
-\Wiki\Catalog\Data\Connector::init(
+Connector::init(
     $confDb['host'],
     $confDb['port'],
     $confDb['db'],
     $confDb['user'],
     $confDb['pass']
 );
-list($controllerClass, $action) = $mappingAction[$method][$uri];
+list($controllerClass, $action) = $mappingAction[$method][$urlPath];
 
 $controller = new $controllerClass();
 $controller->$action();
