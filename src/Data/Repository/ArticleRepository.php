@@ -9,7 +9,7 @@ class ArticleRepository extends Repository
     public function getItem(int $id): ?Article
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM articles WHERE id = :id');
-        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Article::class);
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Article::class, []);
 
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
         $stm->execute();
