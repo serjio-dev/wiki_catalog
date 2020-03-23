@@ -26,14 +26,16 @@ class Articles extends BaseController
 
     public function update()
     {
-        $articleId = 1;
-        $result = null;
+        $articleId = $_GET['id'];
 
         $article = $this->articleRepository->getItem($articleId);
         if ($article instanceof Article) {
-            $article->setContent('content updated at '.gmdate('Y-m-d H:i:s'));
+            $article->setContent($_GET['content']);
+            $article->setTitle($_GET['title']);
+            $article->setUrl($_GET['url']);
             $result = $this->articleRepository->update($article);
         }
+        $this->showList();
     }
 
     public function edit()
@@ -41,16 +43,19 @@ class Articles extends BaseController
         $articleId = $_GET['id'];
         $article = $this->articleRepository->getItem($articleId);
 
-        var_dump($article);
-        var_dump($article->getTitle());
-
-        $this->render('edit', ['article' => $article, 'title' => 'Hi!!!']);
+        $this->render('edit', ['article' => $article]);
     }
 
-    public function remove($id = 1)
+    public function remove()
     {
+        $id = $_GET['id'];
         $result = $this->articleRepository->delete($id);
-        var_dump($result);
+        if ($result) {
+            $this->showList();
+        } else {
+            echo "Delete Error";
+        }
+
     }
 
     public function showItem($id = 1)
@@ -61,7 +66,8 @@ class Articles extends BaseController
 
     public function showList()
     {
-        $articles = $this->articleRepository->getList();
-        var_dump($articles);
+        $articles = $this->articleRepository->getItems();
+
+        $this->render('list', ['articles' => $articles]);
     }
 }
