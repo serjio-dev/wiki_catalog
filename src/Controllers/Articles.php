@@ -10,7 +10,7 @@ class Articles extends BaseController
     /**
      * @var ArticleRepository
      */
-    private ArticleRepository $articleRepository;
+    private $articleRepository;
 
     public function __construct()
     {
