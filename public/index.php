@@ -3,7 +3,7 @@
 use Wiki\Catalog\Controllers\{Articles, Index, Tags, References};
 use Wiki\Catalog\Data\Connector;
 
-define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/..');
+define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/wiki_catalog');
 
 require_once '../vendor/autoload.php';
 $confDb = require '../config/db.php';
@@ -23,13 +23,14 @@ $mappingAction = [
         '/article/edit' => [Articles::class, 'edit'],
         '/tags' => [Tags::class, 'getList'],
         '/reference' => [References::class, 'showItem'],
-        '/references' => [References::class, 'getList'],
+        '/reference/list' => [References::class, 'showList'],
         '/references/update' => [References::class, 'update'],
         '/references/remove' => [References::class, 'remove'],
+        '/references/edit' => [References::class, 'edit'],
     ],
     'POST' => [
         '/tags/create' => [Tags::class, 'create'],
-        '/references/create' => [References::class, 'create'],
+        '/reference/create' => [References::class, 'create'],
     ]
 ];
 
