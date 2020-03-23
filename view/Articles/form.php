@@ -24,26 +24,25 @@
             </th>
         </tr>
         <tr>
-            <form action="update" method="GET">
+            <form action="<?php echo $rout; ?>" method="POST">
                 <td>
-                    <?=$article->getID()?>
+                    <?php echo (!empty($article) ? $article->getID() : 'new'); ?>
                 </td>
                 <td>
-                    <input size="10" type="text" name="title" value="<?=$article->getTitle()?>">
+                    <input size="10" type="text" name="title" value="<?php echo !empty($article) ? $article->getTitle() : null; ?>">
                 </td>
                 <td>
-                    <input size="15" type="text" name="url" value="<?=$article->getUrl()?>">
+                    <input size="15" type="text" name="url" value="<?php echo !empty($article) ? $article->getUrl() : null; ?>">
                 </td>
                 <td>
-                    <p><textarea rows="2" cols="25" name="content"><?=$article->getContent()?></textarea></p>
+                    <p><textarea rows="2" cols="25" name="content"><?php echo !empty($article) ? $article->getContent() : null; ?></textarea></p>
                 </td>
                 <td>
-                    <input type="hidden" name="id" value="<?=$article->getID() ?>">
+                    <input type="hidden" name="id" value="<?php echo !empty($article) ? $article->getID() : null; ?>">
                     <input type="submit" name="update" value="Save">
                 </td>
             </form>
         </tr>
     </table>
-
 </body>
 </html>

@@ -17,4 +17,10 @@ class BaseController
 
         require_once $pathView;
     }
+
+    protected function redirect(string $uri)
+    {
+        header(sprintf('Location: %s', $uri));
+        exit();
+    }
 }

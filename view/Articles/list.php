@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/article/create">Add new record</a><br>
+<a href="/article/upload_url">Upload new record</a>
     <table border="2">
         <tr>
             <th>
@@ -23,29 +25,29 @@
                 Actions
             </th>
         </tr>
-        <? foreach ($articles as $article){?>
+        <?php foreach ($articles as $article) { ?>
             <tr>
                 <td>
-                    <?=$article->getId()?>
+                    <?php echo $article->getId()?>
                 </td>
                 <td>
-                    <?=$article->getTitle()?>
+                    <?php echo $article->getTitle()?>
                 </td>
                 <td>
-                    <?=$article->getUrl()?>
+                    <?php echo $article->getUrl()?>
                 </td>
                 <td>
-                    <?=$article->getContent()?>
+                    <?php echo $article->getContent()?>
                 </td>
                 <td>
-                    <a href="edit?id=<?=$article->getId()?>">Edit</a>
+                    <a href="/article/edit?id=<?php echo $article->getId()?>">Edit</a>
                 </td>
                 <td>
-                    <a href="remove?id=<?=$article->getId()?>">Delete</a>
+                    <a href="/article/remove?id=<?php echo $article->getId()?>">Delete</a>
                 </td>
     
             </tr>
-        <?}?>
+        <?php } ?>
     </table>
 </body>
 </html>

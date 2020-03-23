@@ -18,9 +18,9 @@ $mappingAction = [
         '/article' => [Articles::class, 'showItem'],
         '/article/remove' => [Articles::class, 'remove'],
         '/article/list' => [Articles::class, 'showList'],
-        '/article/create' => [Articles::class, 'create'],
-        '/article/update' => [Articles::class, 'update'],
         '/article/edit' => [Articles::class, 'edit'],
+        '/article/create' => [Articles::class, 'create'],
+        '/article/upload_url' => [Articles::class, 'getUploadUrl'],
         '/tags' => [Tags::class, 'getList'],
         '/reference' => [References::class, 'showItem'],
         '/reference/list' => [References::class, 'showList'],
@@ -29,6 +29,9 @@ $mappingAction = [
         '/references/edit' => [References::class, 'edit'],
     ],
     'POST' => [
+        '/article/create' => [Articles::class, 'create'],
+        '/article/update' => [Articles::class, 'update'],
+        '/article/upload_article' => [Articles::class, 'uploadArticle'],
         '/tags/create' => [Tags::class, 'create'],
         '/reference/create' => [References::class, 'create'],
     ]

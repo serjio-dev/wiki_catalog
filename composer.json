@@ -1,7 +1,9 @@
 {
     "name": "hillel/wiki_catalog",
     "require": {
-      "ext-pdo": "*"
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "~6.0",
+        "electrolinux/phpquery": "^0.9.6"
     },
     "autoload": {
         "psr-4": {
