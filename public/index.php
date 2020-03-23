@@ -3,7 +3,7 @@
 use Wiki\Catalog\Controllers\{Articles, Index, Tags, References};
 use Wiki\Catalog\Data\Connector;
 
-define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/wiki_catalog');
+define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/..');
 
 require_once '../vendor/autoload.php';
 $confDb = require '../config/db.php';
