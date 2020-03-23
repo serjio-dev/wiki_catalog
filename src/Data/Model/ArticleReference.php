@@ -7,21 +7,24 @@ namespace Wiki\Catalog\Data\Model;
 class ArticleReference
 {
     private $id;
-    private $articleId;
+    private $article_id;
     private $link;
     private $content;
 
     /**
      * References constructor.
-     * @param $content
-     * @param $link
-     * @param Article $content
+     * @param string $link
+     * @param string $content
+     * @param Article $article
      */
-    public function __construct(string $link, string $content, Article $article)
+    public function __construct(string $link = null, string $content = null, Article $article = null)
     {
-        $this->link = $link;
-        $this->content = $content;
-        $this->articleId = $article->getId();
+        if ($link && $content && $article) {
+            $this->link = $link;
+            $this->content = $content;
+            $this->article_id = $article->getId();
+        }
+
     }
 
     /**
@@ -45,15 +48,15 @@ class ArticleReference
      */
     public function getArticleId()
     {
-        return $this->articleId;
+        return $this->article_id;
     }
 
     /**
      * @param mixed $articleId
      */
-    public function setArticleId($articleId): void
+    public function setArticleId($article_id): void
     {
-        $this->articleId = $articleId;
+        $this->article_id = $article_id;
     }
 
     /**

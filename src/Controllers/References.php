@@ -4,16 +4,23 @@
 namespace Wiki\Catalog\Controllers;
 
 
-use Wiki\Catalog\Data\Model\Article;
-use Wiki\Catalog\Data\Model\ArticleReference;
+use Wiki\Catalog\Data\Model\{Article, ArticleReference};
 use Wiki\Catalog\Data\Repository\ReferenceRepository;
 
-class References
+class References extends BaseController
 {
-    public function getList()
+    private $referenceRepository;
+    /**
+     * References constructor.
+     */
+    public function __construct()
     {
-        $referenceRepository = new ReferenceRepository();
-        $references = $referenceRepository->getList();
+        $this->referenceRepository = new ReferenceRepository();
+    }
+
+    public function showList()
+    {
+        $references = $this->referenceRepository->getList();
 
         var_dump($references);
 
@@ -24,8 +31,7 @@ class References
         $article = new Article();  //?
 
         $articalReference = new ArticleReference($_POST['link'], $_POST['content'], $article);
-        $referenceRepository = new ReferenceRepository();
-        $reference = $referenceRepository->create($articalReference);
+        $reference = $this->referenceRepository->create($articalReference);
         var_dump($reference);
     }
 
@@ -35,24 +41,21 @@ class References
 
         $articalReference = new ArticleReference($_POST['link'], $_POST['content'], $article);
         $articalReference->setId($id);
-        $referenceRepository = new ReferenceRepository();
-        $reference = $referenceRepository->update($articalReference);
+        $reference = $this->referenceRepository->update($articalReference);
         var_dump($reference);
 
     }
 
     public function delete($id)
     {
-        $referenceRepository = new ReferenceRepository();
-        $reference = $referenceRepository->delete($id);
+        $reference = $this->referenceRepository->delete($id);
 
         var_dump($reference);
     }
 
     public function showItem($id)
     {
-        $referenceRepository = new ReferenceRepository();
-        $reference = $referenceRepository->get($id);
+        $reference = $this->referenceRepository->get($id);
 
         var_dump($reference);
     }

@@ -51,7 +51,11 @@ class ReferenceRepository extends Repository implements RepositoryCrudInterface
         return $stm->execute();
     }
 
-    public function update(ArticleReference $model): bool
+    /**
+     * @param ArticleReference $model
+     * @return bool
+     */
+    public function update(ModelInterface $model): bool
     {
         $stm = $this->getPdo()->prepare('UPDATE `references` SET link=:link, content=:content, article_id=:article_id WHERE id=:id');
         $stm->bindValue('link', $model->getLink(), \PDO::PARAM_STR);
