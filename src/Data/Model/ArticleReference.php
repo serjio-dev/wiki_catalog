@@ -4,26 +4,27 @@
 namespace Wiki\Catalog\Data\Model;
 
 
-class ArticleReference
+use Wiki\Catalog\Data\Repository\ArticleRepository;
+
+class ArticleReference implements ModelInterface
 {
     private $id;
     private $article_id;
     private $link;
     private $content;
+    private $article_title;
 
     /**
      * References constructor.
      * @param string $link
      * @param string $content
-     * @param Article $article
+     * @param int $article_id
      */
-    public function __construct(string $link = null, string $content = null, Article $article = null)
+    public function __construct(string $link = null, string $content = null, $article_id = null)
     {
-        if ($link && $content && $article) {
-            $this->link = $link;
-            $this->content = $content;
-            $this->article_id = $article->getId();
-        }
+        $this->link = $link;
+        $this->content = $content;
+        $this->article_id = $article_id;
 
     }
 
@@ -89,6 +90,14 @@ class ArticleReference
     public function setContent(string $content): void
     {
         $this->content = $content;
+    }
+
+    public function getArticleTitle()
+    {
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getItem($this->article_id);
+        $this->article_title = $article->getTitle();
+        return $this->article_title;
     }
     
     

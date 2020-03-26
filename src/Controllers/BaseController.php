@@ -12,6 +12,7 @@ class BaseController
 
         $arrClassName = explode('\\', get_called_class());
         $className = end($arrClassName);
+        $className = preg_replace('/Controller/', '', $className);
 
         $pathView = sprintf('%s/view/%s/%s.php', DIR_ROOT, $className, $viewName);
 

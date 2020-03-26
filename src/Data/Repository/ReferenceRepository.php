@@ -9,9 +9,13 @@ use Wiki\Catalog\Data\Model\ModelInterface;
 
 class ReferenceRepository extends Repository implements RepositoryCrudInterface
 {
-    public function getItem(int $id): ?ArticleReference
+    /**
+     * @param int $id
+     * @return ArticleReference|null
+     */
+    public function getItem(int $id): ?ModelInterface
     {
-        $stm = $this->getPdo()->prepare('SELECT * FROM `references` WHERE id : id');
+        $stm = $this->getPdo()->prepare('SELECT * FROM `references` WHERE id = :id');
         $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleReference::class);
 
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
@@ -31,7 +35,7 @@ class ReferenceRepository extends Repository implements RepositoryCrudInterface
 
     public function delete($id): bool
     {
-        $stm = $this->getPdo()->prepare('DELETE * FROM `references` WHERE id : id');
+        $stm = $this->getPdo()->prepare('DELETE FROM `references` WHERE id = :id');
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
 
         return $stm->execute();

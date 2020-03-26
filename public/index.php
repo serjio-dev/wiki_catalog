@@ -1,9 +1,9 @@
 <?php
 
-use Wiki\Catalog\Controllers\{Articles, Index, Tags, References};
+use Wiki\Catalog\Controllers\{ArticlesController, IndexController, TagsController, ReferencesController};
 use Wiki\Catalog\Data\Connector;
 
-define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/..');
+define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/wiki_catalog');
 
 require_once '../vendor/autoload.php';
 $confDb = require '../config/db.php';
@@ -14,26 +14,41 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $mappingAction = [
     'GET' => [
-        '/' => [Index::class, 'get'],
-        '/article' => [Articles::class, 'showItem'],
-        '/article/remove' => [Articles::class, 'remove'],
-        '/article/list' => [Articles::class, 'showList'],
-        '/article/edit' => [Articles::class, 'edit'],
-        '/article/create' => [Articles::class, 'create'],
-        '/article/upload_url' => [Articles::class, 'getUploadUrl'],
-        '/tags' => [Tags::class, 'getList'],
-        '/reference' => [References::class, 'showItem'],
-        '/reference/list' => [References::class, 'showList'],
-        '/references/update' => [References::class, 'update'],
-        '/references/remove' => [References::class, 'remove'],
-        '/references/edit' => [References::class, 'edit'],
+        '/' => [IndexController::class, 'get'],
+        '/article/remove' => [ArticlesController::class, 'remove'],
+        '/reference/remove' => [ReferencesController::class, 'remove'],
+        '/tag/remove' => [TagsController::class, 'remove'],
+
+        '/article/list' => [ArticlesController::class, 'showList'],
+        '/reference/list' => [ReferencesController::class, 'showList'],
+        '/tag/list' => [TagsController::class, 'showList'],
+
+        '/article/edit' => [ArticlesController::class, 'edit'],
+        '/reference/edit' => [ReferencesController::class, 'edit'],
+        '/tag/edit' => [TagsController::class, 'edit'],
+
+        '/article/create' => [ArticlesController::class, 'create'],
+        '/reference/create' => [ReferencesController::class, 'create'],
+        '/tag/create' => [TagsController::class, 'create'],
+
+        '/article/upload_url' => [ArticlesController::class, 'getUploadUrl'],
+
+        '/reference/upload_reference' => [ReferencesController::class, 'getUploadReference'],
+        '/tag/upload_reference' => [TagsController::class, 'getUploadTag'],
     ],
     'POST' => [
-        '/article/create' => [Articles::class, 'create'],
-        '/article/update' => [Articles::class, 'update'],
-        '/article/upload_article' => [Articles::class, 'uploadArticle'],
-        '/tags/create' => [Tags::class, 'create'],
-        '/reference/create' => [References::class, 'create'],
+        '/article/create' => [ArticlesController::class, 'create'],
+        '/reference/create' => [ReferencesController::class, 'create'],
+        '/tag/create' => [TagsController::class, 'create'],
+
+        '/article/update' => [ArticlesController::class, 'update'],
+        '/reference/update' => [ReferencesController::class, 'update'],
+        '/tag/update' => [TagsController::class, 'update'],
+
+        '/article/upload_article' => [ArticlesController::class, 'uploadArticle'],
+        '/reference/upload_reference' => [ReferencesController::class, 'uploadReference']
+
+
     ]
 ];
 
