@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Data\Model;
 
-class ArticleTag
+class ArticleTag implements ModelInterface
 {
     private $id;
     private $name;
@@ -13,7 +13,7 @@ class ArticleTag
      * @param $name
      * @param $key
      */
-    public function __construct($name, $key)
+    public function __construct(string $name = null, string $key = null)
     {
         $this->name = $name;
         $this->key = $key;
