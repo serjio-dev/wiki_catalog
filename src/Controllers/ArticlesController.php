@@ -8,7 +8,7 @@ use phpQuery;
 use Wiki\Catalog\Data\Model\Article;
 use Wiki\Catalog\Data\Repository\ArticleRepository;
 
-class Articles extends BaseController
+class ArticlesController extends BaseController
 {
     /**
      * @var ArticleRepository

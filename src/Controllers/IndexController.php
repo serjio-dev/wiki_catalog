@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Controllers;
 
-class Index
+class IndexController
 {
 
     public function get()

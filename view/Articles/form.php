@@ -26,7 +26,7 @@
         <tr>
             <form action="<?php echo $rout; ?>" method="POST">
                 <td>
-                    <?php echo (!empty($article) ? $article->getID() : 'new'); ?>
+                    <?php echo (!empty($article) ? $article->getId() : 'new'); ?>
                 </td>
                 <td>
                     <input size="10" type="text" name="title" value="<?php echo !empty($article) ? $article->getTitle() : null; ?>">
@@ -38,7 +38,7 @@
                     <p><textarea rows="2" cols="25" name="content"><?php echo !empty($article) ? $article->getContent() : null; ?></textarea></p>
                 </td>
                 <td>
-                    <input type="hidden" name="id" value="<?php echo !empty($article) ? $article->getID() : null; ?>">
+                    <input type="hidden" name="id" value="<?php echo !empty($article) ? $article->getId() : null; ?>">
                     <input type="submit" name="update" value="Save">
                 </td>
             </form>
