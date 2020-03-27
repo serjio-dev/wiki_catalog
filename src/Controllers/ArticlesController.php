@@ -87,37 +87,20 @@ class ArticlesController extends BaseController
     public function uploadArticle()
     {
         if ($url = $_POST['url']) {
-            var_dump($url);
-
             $client = new Client();
-
             $request = $client->get($url);
 
-            var_dump($request->getStatusCode());
+            if ($request->getStatusCode() !== 200) {
+                $this->render('/article/error');
+            }
 
-            $stream = $request->getBody();
-
-            $htmlContent = $stream->getContents();
-
+            $htmlContent = $request->getBody()->getContents();
             $document = phpQuery::newDocument($htmlContent);
 
-            $heading = $document->find('h1#firstHeading');//->text();
-            //$content = $document->find('div#bodyContent');
+            $heading = $document->find('h1#firstHeading')->text();
+            $content = $document->find('div#bodyContent')->text();
 
-
-            var_dump($heading);
-           // var_dump($content);
-
-            exit();
-
-            foreach ($hentry as $el) {
-                $pq = pq($el); // Это аналог $ в jQuery
-                $pq->find('h2.entry-title > a.blog')->attr('href', 'http://%username%.habrahabr.ru/blog/')->html('%username%'); // меняем атрибуты найденого элемента
-                $pq->find('div.entry-info')->remove(); // удаляем ненужный элемент
-                $tags = $pq->find('ul.tags > li > a');
-                $tags->append(': ')->prepend(' :'); // добавляем двоеточия по бокам
-                $pq->find('div.content')->prepend('<br />')->prepend($tags); // добавляем контент в начало найденого элемента
-            }
+            $this->articleRepository->create(new Article($heading, $url, $content));
         }
 
         $this->redirect('/article/list');

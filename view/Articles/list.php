@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        td {
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
 <a href="/article/create">Add new record</a><br>
@@ -15,7 +20,7 @@
             <th>
                 Title
             </th>
-            <th>
+            <th width="300">
                 URL
             </th>
             <th>
@@ -34,10 +39,10 @@
                     <?php echo $article->getTitle()?>
                 </td>
                 <td>
-                    <?php echo $article->getUrl()?>
+                    <?php echo urldecode($article->getUrl())?>
                 </td>
                 <td>
-                    <?php echo $article->getContent()?>
+                    Кол. символов: <?php echo strlen($article->getContent())?>
                 </td>
                 <td>
                     <a href="/article/edit?id=<?php echo $article->getId()?>">Edit</a>

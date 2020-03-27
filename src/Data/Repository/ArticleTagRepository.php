@@ -2,6 +2,7 @@
 
 namespace Wiki\Catalog\Data\Repository;
 
+use Wiki\Catalog\Data\Model\Article;
 use Wiki\Catalog\Data\Model\ArticleTag;
 use Wiki\Catalog\Data\Model\ModelInterface;
 
@@ -56,6 +57,16 @@ class ArticleTagRepository extends Repository implements RepositoryCrudInterface
     {
         $stm = $this->getPdo()->prepare('DELETE FROM `tags` WHERE id = :id');
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
+
+        return $stm->execute();
+    }
+
+    public function createLinkArticle(ArticleTag $articleTag, Article $article)
+    {
+        $stm = $this->getPdo()->prepare('INSERT INTO `tags_articles` (`tag_id`, `article_id`) VALUES (:tag_id, :article_id)');
+
+        $stm->bindValue('tag_id', $articleTag->getId(), \PDO::PARAM_INT);
+        $stm->bindValue('article_id', $article->getId(), \PDO::PARAM_INT);
 
         return $stm->execute();
     }
