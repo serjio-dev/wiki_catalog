@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Controllers;
 
-use Wiki\Catalog\Data\Model\ArticleTag;
+use Wiki\Catalog\Data\Model\Tag;
 use Wiki\Catalog\Data\Repository\ArticleTagRepository;
 
 class TagsController extends BaseController
@@ -26,7 +26,7 @@ class TagsController extends BaseController
     public function create()
     {
         if (!empty($_POST)) {
-            $tag = new ArticleTag($_POST['name'], $_POST['key']);
+            $tag = new Tag($_POST['name'], $_POST['key']);
             $this->articleTagRepository->create($tag);
             
             $this->redirect('/tag/list');
@@ -50,7 +50,7 @@ class TagsController extends BaseController
 
         $articleTag = $this->articleTagRepository->getItem($tagId);
 
-        if ($articleTag instanceof ArticleTag) {
+        if ($articleTag instanceof Tag) {
             $articleTag->setName($_POST['name']);
             $articleTag->setKey($_POST['key']);
             $this->articleTagRepository->update($articleTag);

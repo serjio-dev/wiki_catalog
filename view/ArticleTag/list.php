@@ -18,22 +18,19 @@
             Actions
         </th>
     </tr>
-    <?php foreach ([] as $tag) { ?>
+    <?php foreach ($articles_tags as $article_tag) { ?>
         <tr>
             <td>
-                <?php echo $tag->getId()?>
+                <?php echo $article_tag->getTagName()?>
             </td>
             <td>
-                <?php echo $tag->getName()?>
+                <?php echo $article_tag->getArticleTitle()?>
             </td>
             <td>
-                <?php echo $tag->getKey()?>
+                <a href="/article_tag/edit?id=<?php echo $article_tag->getId()?>">Edit</a>
             </td>
             <td>
-                <a href="/article_tag/edit?id=<?php echo $tag->getId()?>">Edit</a>
-            </td>
-            <td>
-                <a href="/article_tag/remove?id=<?php echo $tag->getId()?>">Delete</a>
+                <a href="/article_tag/remove?id=<?php echo $article_tag->getId()?>">Delete</a>
             </td>
 
         </tr>

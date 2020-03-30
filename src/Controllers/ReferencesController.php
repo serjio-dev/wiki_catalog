@@ -4,7 +4,7 @@
 namespace Wiki\Catalog\Controllers;
 
 
-use Wiki\Catalog\Data\Model\{Article, ArticleReference};
+use Wiki\Catalog\Data\Model\{Article, Reference};
 use Wiki\Catalog\Data\Repository\ArticleRepository;
 use Wiki\Catalog\Data\Repository\ReferenceRepository;
 
@@ -31,7 +31,7 @@ class ReferencesController extends BaseController
     {
 
         if (!empty($_POST)) {
-            $reference = new ArticleReference($_POST['link'], $_POST['content'], $_POST['article_id']);
+            $reference = new Reference($_POST['link'], $_POST['content'], $_POST['article_id']);
             $this->referenceRepository->create($reference);
 
             $this->redirect('/reference/list');
@@ -55,7 +55,7 @@ class ReferencesController extends BaseController
 
         $articleReference = $this->referenceRepository->getItem($articleReferenceId);
 
-        if ($articleReference instanceof ArticleReference) {
+        if ($articleReference instanceof Reference) {
             $articleReference->setArticleId($_POST['article_id']);
             $articleReference->setLink($_POST['link']);
             $articleReference->setContent($_POST['content']);

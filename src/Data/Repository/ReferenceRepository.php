@@ -4,19 +4,19 @@
 namespace Wiki\Catalog\Data\Repository;
 
 
-use Wiki\Catalog\Data\Model\ArticleReference;
+use Wiki\Catalog\Data\Model\Reference;
 use Wiki\Catalog\Data\Model\ModelInterface;
 
 class ReferenceRepository extends Repository implements RepositoryCrudInterface
 {
     /**
      * @param int $id
-     * @return ArticleReference|null
+     * @return Reference|null
      */
     public function getItem(int $id): ?ModelInterface
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM `references` WHERE id = :id');
-        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleReference::class);
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Reference::class);
 
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
         $stm->execute();
@@ -28,7 +28,7 @@ class ReferenceRepository extends Repository implements RepositoryCrudInterface
     public function getItems(): array
     {
         $stm = $this->getPdo()->query('SELECT * FROM `references`');
-        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleReference::class);
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Reference::class);
 
         return $stm->fetchAll() ?? [];
     }
@@ -42,7 +42,7 @@ class ReferenceRepository extends Repository implements RepositoryCrudInterface
     }
 
     /**
-     * @param ArticleReference $model
+     * @param Reference $model
      * @return bool
      */
     public function create(ModelInterface $model): bool
@@ -56,7 +56,7 @@ class ReferenceRepository extends Repository implements RepositoryCrudInterface
     }
 
     /**
-     * @param ArticleReference $model
+     * @param Reference $model
      * @return bool
      */
     public function update(ModelInterface $model): bool

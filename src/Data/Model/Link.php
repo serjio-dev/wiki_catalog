@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Data\Model;
 
-class ArticleLink
+class Link
 {
     private $id;
     private $title;

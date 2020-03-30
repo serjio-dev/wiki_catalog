@@ -4,18 +4,19 @@ namespace Wiki\Catalog\Data\Repository;
 
 use Wiki\Catalog\Data\Model\Article;
 use Wiki\Catalog\Data\Model\ArticleTag;
+use Wiki\Catalog\Data\Model\Tag;
 use Wiki\Catalog\Data\Model\ModelInterface;
 
 class ArticleTagRepository extends Repository implements RepositoryCrudInterface
 {
     /**
      * @param int $id
-     * @return ArticleTag|null
+     * @return Tag|null
      */
     public function getItem(int $id): ?ModelInterface
     {
         $stm = $this->getPdo()->prepare('SELECT * FROM tags WHERE id = :id');
-        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleTag::class);
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Tag::class);
 
         $stm->bindValue('id', $id, \PDO::PARAM_INT);
         $stm->execute();
@@ -27,7 +28,7 @@ class ArticleTagRepository extends Repository implements RepositoryCrudInterface
     public function getItems(): array
     {
         $stm = $this->getPdo()->query('SELECT * FROM `tags`');
-        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleTag::class);
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Tag::class);
 
         return $stm->fetchAll() ?? [];
     }
@@ -61,7 +62,7 @@ class ArticleTagRepository extends Repository implements RepositoryCrudInterface
         return $stm->execute();
     }
 
-    public function createLinkArticle(ArticleTag $articleTag, Article $article)
+    public function createLinkArticle(Tag $articleTag, Article $article)
     {
         $stm = $this->getPdo()->prepare('INSERT INTO `tags_articles` (`tag_id`, `article_id`) VALUES (:tag_id, :article_id)');
 
@@ -70,4 +71,44 @@ class ArticleTagRepository extends Repository implements RepositoryCrudInterface
 
         return $stm->execute();
     }
+
+    public function getTagsArticle(): array
+    {
+        $stm = $this->getPdo()->query('SELECT * FROM `tags_articles`');
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleTag::class);
+
+        return $stm->fetchAll() ?? [];
+    }
+
+    public function deleteArticletag($id)
+    {
+        $stm = $this->getPdo()->prepare('DELETE FROM `tags_articles` WHERE id = :id');
+        $stm->bindValue('id', $id, \PDO::PARAM_INT);
+
+        return $stm->execute();
+    }
+
+    public function getItemArticleTag($id)
+    {
+        $stm = $this->getPdo()->prepare('SELECT * FROM `tags_articles` WHERE id = :id');
+        $stm->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, ArticleTag::class);
+
+        $stm->bindValue('id', $id, \PDO::PARAM_INT);
+        $stm->execute();
+        $res = $stm->fetch();
+
+        return $res ?? null;
+    }
+
+    public function updateArticleTag(ArticleTag $articleTag, Tag $tag, Article $article)
+    {
+        $stm = $this->getPdo()->prepare("UPDATE `tags_articles` SET `tag_id`=:tagId, `article_id`=:articleId WHERE id = :id");
+
+        $stm->bindValue('id', $articleTag->getId(), \PDO::PARAM_INT);
+        $stm->bindValue('tagId', $tag->getId(), \PDO::PARAM_INT);
+        $stm->bindValue('articleId',  $article->getId(), \PDO::PARAM_INT);
+
+        return $stm->execute();
+    }
+
 }

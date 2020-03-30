@@ -22,7 +22,7 @@ $mappingAction = [
         '/article/remove' => [ArticlesController::class, 'remove'],
         '/reference/remove' => [ReferencesController::class, 'remove'],
         '/tag/remove' => [TagsController::class, 'remove'],
-        '/article_tag/remove' => [TagsController::class, 'remove'],
+        '/article_tag/remove' => [ArticleTagController::class, 'remove'],
 
         '/article/list' => [ArticlesController::class, 'showList'],
         '/reference/list' => [ReferencesController::class, 'showList'],

@@ -1,23 +1,17 @@
 <?php
 
+
 namespace Wiki\Catalog\Data\Model;
+
+
+use Wiki\Catalog\Data\Repository\ArticleRepository;
+use Wiki\Catalog\Data\Repository\ArticleTagRepository;
 
 class ArticleTag implements ModelInterface
 {
+    private $tag_id;
+    private $article_id;
     private $id;
-    private $name;
-    private $key;
-
-    /**
-     * ArticleTag constructor.
-     * @param $name
-     * @param $key
-     */
-    public function __construct(string $name = null, string $key = null)
-    {
-        $this->name = $name;
-        $this->key = $key;
-    }
 
     /**
      * @return mixed
@@ -27,43 +21,50 @@ class ArticleTag implements ModelInterface
         return $this->id;
     }
 
+
     /**
-     * @param mixed $id
+     * @return mixed
      */
-    public function setId($id): void
+    public function getTagId()
     {
-        $this->id = $id;
+        return $this->tag_id;
+    }
+
+    /**
+     * @param mixed $tag_id
+     */
+    public function setTagId($tag_id): void
+    {
+        $this->tag_id = $tag_id;
+    }
+
+    public function getArticleTitle()
+    {
+        $article = new ArticleRepository();
+        return $article->getItem($this->article_id)->getTitle();
+    }
+
+    public function getTagName()
+    {
+        $tag = new ArticleTagRepository();
+        return $tag->getItem($this->tag_id)->getName();
     }
 
     /**
      * @return mixed
      */
-    public function getName()
+    public function getArticleId()
     {
-        return $this->name;
+        return $this->article_id;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $article_id
      */
-    public function setName($name): void
+    public function setArticleId($article_id): void
     {
-        $this->name = $name;
+        $this->article_id = $article_id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
 
-    /**
-     * @param mixed $key
-     */
-    public function setKey($key): void
-    {
-        $this->key = $key;
-    }
 }

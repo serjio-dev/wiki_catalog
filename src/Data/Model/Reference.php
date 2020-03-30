@@ -6,7 +6,7 @@ namespace Wiki\Catalog\Data\Model;
 
 use Wiki\Catalog\Data\Repository\ArticleRepository;
 
-class ArticleReference implements ModelInterface
+class Reference implements ModelInterface
 {
     private $id;
     private $article_id;

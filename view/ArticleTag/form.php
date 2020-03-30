@@ -20,24 +20,24 @@
     <tr>
         <form action="<?php echo $rout; ?>" method="POST">
             <td>
-                <?php echo (!empty($tag) ? $tag->getId() : 'new'); ?>
+                <?php echo (!empty($article_tag) ? $article_tag->getId() : 'new'); ?>
             </td>
             <td>
                 <select name="article_id">
                     <?php foreach ($articles as $article) {?>
-                        <option value="<?php echo $article->getId()?>"><?php echo $article->getTitle()?></option>
+                        <option value="<?php echo $article->getId()?>"<?php echo !empty($article_tag) && $article_tag->getArticleId() == $article->getId() ? "selected" : ""?>><?php echo $article->getTitle()?></option>
                     <?php }?>
                 </select>
             </td>
             <td>
                 <select name="tag_id">
                     <?php foreach ($tags as $tag) {?>
-                        <option value="<?php echo $tag->getId()?>"><?php echo $tag->getName()?></option>
+                        <option value="<?php echo $tag->getId()?>"<?php echo !empty($article_tag) && $article_tag->getTagId() == $tag->getId() ? "selected" : ""?>><?php echo $tag->getName()?></option>
                     <?php }?>
                 </select>
             </td>
             <td>
-                <input type="hidden" name="id" value="<?php echo !empty($tag) ? $tag->getId() : null; ?>">
+                <input type="hidden" name="id" value="<?php echo !empty($article_tag) ? $article_tag->getId() : null; ?>">
                 <input type="submit" name="update" value="Save">
             </td>
         </form>

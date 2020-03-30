@@ -2,7 +2,7 @@
 
 namespace Wiki\Catalog\Data\Model;
 
-class ArticleMenu
+class Menu
 {
     private $id;
     private $name;
@@ -12,10 +12,10 @@ class ArticleMenu
     /**
      * ArticleMenu constructor.
      * @param $name
-     * @param ArticleMenu $parent
+     * @param Menu $parent
      * @param Article $article
      */
-    public function __construct($name, ArticleMenu $parent, Article $article)
+    public function __construct($name, Menu $parent, Article $article)
     {
         $this->name = $name;
         $this->parentId = $parent->getId();
